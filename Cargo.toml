@@ -1,0 +1,19 @@
+[workspace]
+members = ["deserialize", "tests", "verifier"]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+license = "Apache-2.0"
+authors = ["Horizen Labs <admin@horizenlabs.io>"]
+
+
+[workspace.dependencies]
+bellman = { package = "bellman_ce", git = "https://github.com/matter-labs/bellman", branch = "snark-wrapper" }
+
+rstest = "0.19.0"
+ethereum-types = "0.14.1"
+
+verifier = { path = "verifier", package = "zksync-era-verifier" }
+deserialize = { path = "deserialize", package = "zksync-era-verifier-deserialize" }
+tests = { path = "tests", package = "zksync-era-verifier-tests" }

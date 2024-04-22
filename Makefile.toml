@@ -1,0 +1,62 @@
+[config]
+default_to_workspace = false
+
+[tasks.ignore-members]
+workspace = false
+
+[tasks.format]
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--", "--emit=files"]
+
+[tasks.check-fmt]
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--check"]
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.build]
+command = "cargo"
+dependencies = ["clean"]
+args = ["build"]
+
+[tasks.test]
+command = "cargo"
+dependencies = ["clean"]
+args = ["test"]
+
+[tasks.clippy]
+command = "cargo"
+args = ["clippy", "--", "--deny", "warnings"]
+
+[tasks.coverage]
+description = "Runs coverage with llvm-cov"
+run_task = "cov"
+
+[tasks.cov]
+description = "Runs coverage with llvm-cov"
+command = "cargo"
+args = ["llvm-cov", "--workspace", "--lcov", "--output-path", "lcov.info"]
+
+[tasks.bench]
+description = "Runs benchmark"
+dependencies = ["test"]
+command = "cargo"
+args = ["bench"]
+
+[tasks.add-header-raw]
+install_crate = "add-header"
+command = "add-header"
+args = ["--header", "HEADER-APACHE2"]
+
+[tasks.add-header]
+dependencies = ["check-fmt", "add-header-raw", "format"]
+
+[tasks.ci-remote]
+dependencies = ["check-fmt", "clippy", "build", "test"]
+
+[tasks.ci]
+dependencies = ["check-fmt", "add-header", "ci-remote", "bench"]
