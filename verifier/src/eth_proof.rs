@@ -54,7 +54,16 @@ impl<E: Engine> Circuit<E> for ZkSyncSnarkEthCircuit {
     }
 }
 
-/// Deserialize an ethereum ZkSync proof.
+/// Deserialize an ethereum ZkSync proof without fille the public inputs.
+/// The serialized proof for ethereum omit the public inputs that will be
+/// given by the smart contract; in order to verify the proof, the user
+/// should provide the public inputs later.
+///
+/// ```ignore
+/// let mut proof = deserialize(&proof_bytes).unwrap();
+/// proof.inputs = public_inputs;
+/// ```
+///
 pub fn deserialize(bytes: &[u8]) -> Result<ZkSyncEthProof, DeserializeError> {
     const PROOF_N: usize = 511;
     const POLY_OPENING_DILATATION: usize = 1;
