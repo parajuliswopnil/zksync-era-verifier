@@ -32,6 +32,10 @@ args = ["test"]
 command = "cargo"
 args = ["clippy", "--", "--deny", "warnings"]
 
+[tasks.audit]
+command = "cargo"
+args = ["audit"]
+
 [tasks.coverage]
 description = "Runs coverage with llvm-cov"
 run_task = "cov"
