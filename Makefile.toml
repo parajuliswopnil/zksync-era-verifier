@@ -48,9 +48,8 @@ command = "cargo"
 args = ["bench"]
 
 [tasks.add-header-raw]
-install_crate = "add-header"
-command = "add-header"
-args = ["--header", "HEADER-APACHE2"]
+script = { file = "./scripts/add_header_if_missed.sh" }
+args = ["HEADER-APACHE2", "./!(target)/**/*.rs"]
 
 [tasks.add-header]
 dependencies = ["check-fmt", "add-header-raw", "format"]
