@@ -47,15 +47,16 @@ dependencies = ["test"]
 command = "cargo"
 args = ["bench"]
 
-[tasks.add-header-raw]
+[tasks.add-header]
 script = { file = "./scripts/add_header_if_missed.sh" }
 args = ["HEADER-APACHE2", "./!(target)/**/*.rs"]
 
-[tasks.add-header]
-dependencies = ["check-fmt", "add-header-raw", "format"]
+[tasks.check-header]
+env = { CHECK_DIRTY = "true" }
+run_task = "add-header"
 
 [tasks.ci-remote]
-dependencies = ["check-fmt", "clippy", "build", "test"]
+dependencies = ["check-fmt", "check-header", "clippy", "build", "test"]
 
 [tasks.ci]
 dependencies = ["check-fmt", "add-header", "ci-remote", "bench"]
