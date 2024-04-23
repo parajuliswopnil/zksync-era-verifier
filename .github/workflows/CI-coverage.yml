@@ -4,7 +4,7 @@ run-name: "Workflow performing CI step: coverage"
 
 on:
   pull_request:
-    types: [synchronize]
+    types: [opened, synchronize]
     branches: 
       - main
   push:
