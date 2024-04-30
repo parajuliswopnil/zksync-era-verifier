@@ -37,5 +37,6 @@ if __name__ == "__main__":
     else:
         file_path = sys.argv[1]
         result = convert_and_concatenate(file_path)
-        if result is not None:
-            print(f"Concatenated Hex String: {result}")
+        # Print the result in chunks of 64 characters
+        for i in range(0, len(result), 64):
+            print(result[i:i+64])
