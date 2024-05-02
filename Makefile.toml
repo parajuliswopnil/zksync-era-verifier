@@ -4,13 +4,16 @@ default_to_workspace = false
 [tasks.ignore-members]
 workspace = false
 
+[tasks.formatter]
+install_crate = { rustup_component_name = "rustfmt", binary = "rustfmt", test_arg = "--help" }
+
 [tasks.format]
-install_crate = "rustfmt"
+dependencies = ["formatter"]
 command = "cargo"
 args = ["fmt", "--", "--emit=files"]
 
 [tasks.check-fmt]
-install_crate = "rustfmt"
+dependencies = ["formatter"]
 command = "cargo"
 args = ["fmt", "--check"]
 
