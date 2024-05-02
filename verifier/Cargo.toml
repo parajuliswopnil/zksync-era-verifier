@@ -1,0 +1,21 @@
+[package]
+name = "zksync-era-verifier"
+version = "0.1.0"
+description = "A verifier for zksync-era proofs posted on Ethereum"
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+bellman.workspace = true
+deserialize.workspace = true
+
+[dev-dependencies]
+rstest.workspace = true
+tests.workspace = true
+serde_json = "1.0.116"
+divan = "0.1.14"
+
+[[bench]]
+name = "base"
+harness = false

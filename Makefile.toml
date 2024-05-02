@@ -1,0 +1,69 @@
+[config]
+default_to_workspace = false
+
+[tasks.ignore-members]
+workspace = false
+
+[tasks.formatter]
+install_crate = { rustup_component_name = "rustfmt", binary = "rustfmt", test_arg = "--help" }
+
+[tasks.format]
+dependencies = ["formatter"]
+command = "cargo"
+args = ["fmt", "--", "--emit=files"]
+
+[tasks.check-fmt]
+dependencies = ["formatter"]
+command = "cargo"
+args = ["fmt", "--check"]
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.build]
+command = "cargo"
+dependencies = ["clean"]
+args = ["build"]
+
+[tasks.test]
+command = "cargo"
+dependencies = ["clean"]
+args = ["test"]
+
+[tasks.clippy]
+command = "cargo"
+args = ["clippy", "--", "--deny", "warnings"]
+
+[tasks.audit]
+command = "cargo"
+args = ["audit"]
+
+[tasks.coverage]
+description = "Runs coverage with llvm-cov"
+run_task = "cov"
+
+[tasks.cov]
+description = "Runs coverage with llvm-cov"
+command = "cargo"
+args = ["llvm-cov", "--workspace", "--lcov", "--output-path", "lcov.info"]
+
+[tasks.bench]
+description = "Runs benchmark"
+dependencies = ["test"]
+command = "cargo"
+args = ["bench"]
+
+[tasks.add-header]
+script = { file = "./scripts/add_header_if_missed.sh" }
+args = ["HEADER-APACHE2", "./!(target)/**/*.rs"]
+
+[tasks.check-header]
+env = { CHECK_DIRTY = "true" }
+run_task = "add-header"
+
+[tasks.ci-remote]
+dependencies = ["check-fmt", "check-header", "clippy", "build", "test"]
+
+[tasks.ci]
+dependencies = ["check-fmt", "add-header", "ci-remote", "bench"]

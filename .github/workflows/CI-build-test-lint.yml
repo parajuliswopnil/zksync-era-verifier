@@ -1,0 +1,47 @@
+name: CI-build-test-lint
+
+run-name: "Workflow performing CI steps: build, unit testing, linting and check format"
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: 
+      - main
+  schedule:
+    - cron: '0 6 * * SAT'
+  push:
+    branches:
+      - main
+  workflow_dispatch: 
+
+env:
+  RUST_BACKTRACE: 1
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+      - name: Install cargo-make
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: --debug cargo-make
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: nightly
+      - name: Run CI stable
+        uses: actions-rs/cargo@v1
+        with:
+          toolchain: stable
+          command: make
+          args: ci-remote
+      - name: Run CI nightly
+        uses: actions-rs/cargo@v1
+        with:
+          toolchain: nightly
+          command: make
+          args: ci-remote
