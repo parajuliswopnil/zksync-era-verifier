@@ -1,5 +1,5 @@
 [workspace]
-members = ["deserialize", "tests", "verifier"]
+members = ["deserialize", "tests", "verifier", "program", "script"]
 resolver = "2"
 
 [workspace.package]
@@ -17,3 +17,5 @@ ethereum-types = "0.14.1"
 verifier = { path = "verifier", package = "zksync-era-verifier" }
 deserialize = { path = "deserialize", package = "zksync-era-verifier-deserialize" }
 tests = { path = "tests", package = "zksync-era-verifier-tests" }
+program = { path = "program", package = "hello-program" }
+script = { path = "script", package = "hello-script"}
